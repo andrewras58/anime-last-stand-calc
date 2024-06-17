@@ -1,7 +1,7 @@
 {
   "name": "anime-last-stand-calc",
   "version": "0.1.0",
-  "homepage": "https://andrewras58.github.io/anime-last-stand-calc",
+  "homepage": "https://andrewras58.github.io/anime-last-stand-calc/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
