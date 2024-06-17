@@ -6,7 +6,7 @@ import StatReroll from './StatReroll';
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
         {/* <Navbar /> */}
         <div className="content">
