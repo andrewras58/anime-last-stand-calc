@@ -1,0 +1,24 @@
+.technique-reroll{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .technique-input{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1000px;
+    flex-wrap: wrap;
+    > button{
+      cursor: pointer;
+      margin: 2px;
+      padding: 10px;
+      background-color: red;
+      > img{
+        height: 100px;
+        width: 100px;
+      }
+    }
+  }
+}
