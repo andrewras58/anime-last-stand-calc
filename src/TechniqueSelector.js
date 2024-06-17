@@ -21,9 +21,10 @@ import vulture from './images/techniques/vulture.bmp';
 const TechniqueSelector = ({techniques, setTechniques}) => {
 
   const toggleButton = (e) => {
-    techniques[e.target.alt] = !techniques[e.target.alt];
-    setTechniques(techniques);
-    techniques[e.target.alt] ? e.currentTarget.style.backgroundColor="green" : e.currentTarget.style.backgroundColor="red";
+    let tempTeq = structuredClone(techniques);
+    tempTeq[e.target.alt] = !tempTeq[e.target.alt];
+    setTechniques(tempTeq);
+    tempTeq[e.target.alt] ? e.currentTarget.style.backgroundColor="green" : e.currentTarget.style.backgroundColor="red";
   }
 
   return ( 

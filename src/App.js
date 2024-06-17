@@ -1,6 +1,6 @@
 import './scss/App.scss';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './Navbar';
+// import Navbar from './Navbar';
 import TechniqueReroll from './TechniqueReroll';
 import StatReroll from './StatReroll';
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="content">
           <Routes>
             <Route path="/" element={<TechniqueReroll />}></Route>

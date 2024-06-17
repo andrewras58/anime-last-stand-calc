@@ -1,7 +1,7 @@
 const StatReroll = () => {
   return ( 
     <div className="stat-reroll">
-      How are ya
+      coming soon maybe idk
     </div>
   );
 }

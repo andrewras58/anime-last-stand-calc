@@ -21,4 +21,13 @@
       }
     }
   }
+  .reroll-input{
+    margin-top: 20px;
+  }
+  .probability-output{
+    > p{
+      margin: 10px 0;
+      font-size: 2rem;
+    }
+  }
 }

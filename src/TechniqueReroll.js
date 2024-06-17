@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TechniqueSelector from "./TechniqueSelector";
 import TechniqueProbability from "./TechniqueProbability";
 
@@ -26,14 +26,10 @@ const TechniqueReroll = () => {
   });
   const [rerolls, setRerolls] = useState(null);
 
-  useEffect(() => {
-    console.log(techniques);
-  }, [techniques])
-
   return ( 
     <div className="technique-reroll">
       <TechniqueSelector techniques={techniques} setTechniques={setTechniques} />
-      <input type="number" onChange={(e) => setRerolls(e.target.value)}/>
+      <input className="reroll-input" type="number" placeholder="# of rerolls..." onChange={(e) => setRerolls(e.target.value)}/>
       <TechniqueProbability rerolls={rerolls} techniques={techniques}/>
     </div>
   );

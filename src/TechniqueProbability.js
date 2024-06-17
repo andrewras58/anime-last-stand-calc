@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import Statistics from "statistics.js";
+
 const probabilities = {
   'scoped': 0.26,
   'accelerate': 0.21,
@@ -20,11 +23,28 @@ const probabilities = {
   'glitched': 0.0003
 };
 
+const calcProbability = (rerolls, techniques, probabilities) => {
+  if (rerolls && rerolls !== "0"){
+    let cumProb = 0;
+    Object.keys(techniques).forEach( (key) => { 
+      techniques[key] && (cumProb += probabilities[key]);
+      cumProb = Math.round(cumProb*1000000) / 1000000;
+    });
+    let x = new Statistics({});
+    return Math.round(x.binomialDistribution(parseInt(rerolls), cumProb).slice(1).reduce((a,b)=>a+b) * 100000) / 1000;
+  }
+}
+
 const TechniqueProbability = ({rerolls, techniques}) => {
+  const [probability, setProbability] = useState(null);
+  useEffect(() => {
+    setProbability(calcProbability(rerolls, techniques, probabilities));
+  }, [rerolls, techniques])
+
   return ( 
     <div className="probability-output">
-      {rerolls && techniques && (
-        <p>{rerolls}</p>
+      {probability && (
+        <p>{probability}%</p>
       )}
     </div>
   );
