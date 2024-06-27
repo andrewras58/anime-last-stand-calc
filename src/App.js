@@ -1,11 +1,21 @@
 import './scss/App.scss';
-// import Navbar from './Navbar';
 import TechniqueReroll from './TechniqueReroll';
+import UnitStats from './UnitStats';
+import { HashRouter, Route, Routes, Link } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <TechniqueReroll />
+      <HashRouter>
+        <nav className="navbar">
+            <Link to="/">Technique Reroll</Link>
+            <Link to="/unit-stats">Unit Stats</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<TechniqueReroll />}/>
+          <Route path="/unit-stats" element={<UnitStats />}/>
+        </Routes>
+      </HashRouter>
     </div>
   );
 }

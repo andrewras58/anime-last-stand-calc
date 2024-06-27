@@ -1,0 +1,54 @@
+{
+    "freeze": {
+        "damage": null,
+        "duration": null
+    },
+    "stun": {
+        "damage": null,
+        "duration": null
+    },
+    "slow": {
+        "damage": null,
+        "duration": null
+    },
+    "electrified": {
+        "damage": 0.35,
+        "duration": 4
+    },
+    "fear": {
+        "damage": null,
+        "duration": null
+    },
+    "cripple": {
+        "damage": null,
+        "duration": null
+    },
+    "bleed": {
+        "damage": 1.4,
+        "duration": 6
+    },
+    "hemorrhage": {
+        "damage": 1.4,
+        "duration": 3
+    },
+    "dismantled": {
+        "damage": 2.275,
+        "duration": 6
+    },
+    "flame": {
+        "damage": 1.2,
+        "duration": 8
+    },
+    "black flames": {
+        "damage": 4.8,
+        "duration": 10
+    },
+    "poison": {
+        "damage": 2.3,
+        "duration": 6
+    },
+    "conquered": {
+        "damage": 2.3,
+        "duration": 6
+    }
+}
