@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/anime-last-stand-calc/static/css/main.259f5dfc.css",
-    "main.js": "/anime-last-stand-calc/static/js/main.7c075efe.js",
+    "main.js": "/anime-last-stand-calc/static/js/main.cecd7fa4.js",
     "static/js/453.de4dade8.chunk.js": "/anime-last-stand-calc/static/js/453.de4dade8.chunk.js",
     "static/media/accelerate.bmp": "/anime-last-stand-calc/static/media/accelerate.bc14954d08fcc5cf3878.bmp",
     "static/media/all seeing.bmp": "/anime-last-stand-calc/static/media/all seeing.e15e6186aea0af02f3f2.bmp",
@@ -24,11 +24,11 @@
     "static/media/vulture.bmp": "/anime-last-stand-calc/static/media/vulture.03462ea366c8d613ae2e.bmp",
     "index.html": "/anime-last-stand-calc/index.html",
     "main.259f5dfc.css.map": "/anime-last-stand-calc/static/css/main.259f5dfc.css.map",
-    "main.7c075efe.js.map": "/anime-last-stand-calc/static/js/main.7c075efe.js.map",
+    "main.cecd7fa4.js.map": "/anime-last-stand-calc/static/js/main.cecd7fa4.js.map",
     "453.de4dade8.chunk.js.map": "/anime-last-stand-calc/static/js/453.de4dade8.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.259f5dfc.css",
-    "static/js/main.7c075efe.js"
+    "static/js/main.cecd7fa4.js"
   ]
 }
