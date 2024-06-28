@@ -24,6 +24,11 @@ const UnitStats = () => {
   const changeUnit = (unitName) => {
     setUnit(unitName);
     setUnitLevel(0);
+    setDOT({
+      'damage': null,
+      'duration': null
+    });
+    setDPS(null);
   }
 
   const convertNumToString = (num) => {
@@ -49,7 +54,7 @@ const UnitStats = () => {
     }
 
     const calcDOT = (atk, effect, thisTechnique) => {
-      if (!effectData[effect]['damage']){
+      if (!effect || !effectData[effect]['damage']){
         return null;
       }
       let dmg = effectData[effect]['damage'];
