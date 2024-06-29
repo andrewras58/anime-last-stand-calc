@@ -1,6 +1,7 @@
 import unitData from "./data/data.json";
 import techniqueData from "./data/techniques.json";
 import effectData from "./data/effects.json";
+import treeData from "./data/trees.json";
 import { useState, useEffect } from "react";
 
 const UnitStats = () => {
@@ -20,6 +21,7 @@ const UnitStats = () => {
     'duration': null
   });
   const [DPS, setDPS] = useState(null);
+  const [tree, setTree] = useState("")
 
   const changeUnit = (unitName) => {
     setUnit(unitName);
@@ -45,6 +47,9 @@ const UnitStats = () => {
     const calcStat = (stat, statTable) => {
       if (statTable[stat]){
         let totalStat = convertStringToNum(statTable[stat]);
+        if (tree && tree !== "none" && treeData[tree][stat] !== null){
+          totalStat *= treeData[tree][stat];
+        }
         if (technique && technique !== "base" && techniqueData[technique][stat] !== null){
           totalStat *= techniqueData[technique][stat];
         }
@@ -106,17 +111,23 @@ const UnitStats = () => {
       }
       setDPS(calcDPS(atk, spa, thisDOT));
     }
-  }, [unit, unitLevel, technique]);
+  }, [unit, unitLevel, technique, tree]);
 
   return (
     <div className="unit-statistics">
       <div className="unit-selection">
-      <select name="units" id="units" value={unit} onChange={e => changeUnit(e.target.value)}>
-        { Object.keys(unitData).map((name, i) => <option value={name} key={i}>{name}</option>) }
-      </select>
-      <select name="techniques" id="techniques" value={technique} onChange={e => setTechnique(e.target.value)}>
-        { Object.keys(techniqueData).map((name, i) => <option value={name} key={i}>{name}</option>) }
-      </select>
+        <label htmlFor="units">Unit: </label>
+        <select name="units" id="units" value={unit} onChange={e => changeUnit(e.target.value)}>
+          { Object.keys(unitData).map((name, i) => <option value={name} key={i}>{name}</option>) }
+        </select>
+        <label htmlFor="techniques">Technique: </label>
+        <select name="techniques" id="techniques" value={technique} onChange={e => setTechnique(e.target.value)}>
+          { Object.keys(techniqueData).map((name, i) => <option value={name} key={i}>{name}</option>) }
+        </select>
+        <label htmlFor="trees">Skill Tree: </label>
+        <select name="trees" id="trees" value={tree} onChange={e => setTree(e.target.value)}>
+          { Object.keys(treeData).map((name, i) => <option value={name} key={i}>{name}</option>) }
+        </select>
       </div>
       <div className="result-container">
         <div className="left-column-stats">

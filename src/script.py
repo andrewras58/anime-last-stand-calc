@@ -29,8 +29,11 @@ def get_effect(stat_html):
             if (p.find('damage') != -1):
                 effect = p.split(' ')
                 return ' '.join(effect[3:len(effect)-1]).lower()
-            else:
-                return None
+            
+        if li.text.split(' ')[0] == "+Inflicts":
+            return li.text.split('+Inflicts')[1].strip().split(' ')[0].lower()
+        if li.text.split(' ')[0] == "Inflicts":
+            return li.text.split('Inflicts')[1].strip().split(' ')[0].lower()
             
 def get_money(stat_html):
     for li in stat_html.find_all('li'):
@@ -54,14 +57,21 @@ def run():
         char_name = char_soup.find('h1', {'class': 'page-header__title'}).text.strip()
         character_data[char_name] = dict()
         print(char_name)
+        char_wide_effect = None
 
         for upgrade_num, stat_box in enumerate(char_soup.find_all('div', {'id': 'mw-customcollapsible-statsBoxMax', 'class': 'mw-collapsible mw-collapsed mw-collapsible_Stats-Box'})):
+            current_effect = get_effect(stat_box)
+            if current_effect == None and char_wide_effect != None:
+                current_effect = char_wide_effect
+            elif current_effect != None:
+                char_wide_effect = current_effect
+            
             character_data[char_name][upgrade_num] = {
                 'cost': get_cost(stat_box),
                 'damage': get_damage(stat_box),
                 'range': get_range(stat_box),
                 'spa': get_spa(stat_box),
-                'effect': get_effect(stat_box),
+                'effect': current_effect,
                 'money': get_money(stat_box)
             }
             print(character_data[char_name][upgrade_num])
