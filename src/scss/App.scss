@@ -128,15 +128,18 @@ nav{
     .unit-selection{
       flex-direction: column;
     }
-    .result-container{
-      > .result-header{
-        text-align: center;
-      }
-      > .unit-stats{
-        font-size: 1rem;
-        > p{
-          -webkit-text-stroke-width: 0.25px;
-        }
+  }
+}
+
+@media (max-width: 500px){
+  .result-container{
+    > .result-header{
+      text-align: center;
+    }
+    > .unit-stats{
+      font-size: 1rem;
+      > p{
+        -webkit-text-stroke-width: 0.25px;
       }
     }
   }
