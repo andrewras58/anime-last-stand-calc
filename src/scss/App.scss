@@ -73,6 +73,12 @@ nav{
     background-color: white;
     display: flex;
     justify-content: space-around;
+    > .main-column{
+      img {
+        height: 125px;
+        width: 100px;
+      }
+    }
   }
 }
 

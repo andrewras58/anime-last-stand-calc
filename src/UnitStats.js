@@ -15,6 +15,7 @@ const UnitStats = () => {
   const [damageGrade, setDamageGrade] = useState("");
   const [rangeGrade, setRangeGrade] = useState("");
   const [spaGrade, setSpaGrade] = useState("");
+  const [totalCost, setTotalCost] = useState(null);
   const [unitStats, setUnitStats] = useState({
     'cost': null,
     'damage': null,
@@ -26,6 +27,10 @@ const UnitStats = () => {
   const [DOT, setDOT] = useState({
     'damage': null,
     'duration': null
+  });
+  const [crit, setCrit] = useState({
+    'critRate': 0,
+    'critDamage': 0
   });
 
   const changeUnit = (unitName) => {
@@ -45,8 +50,6 @@ const UnitStats = () => {
   const convertStringToNum = (str) => {
     return parseFloat(str.replace(/,/g,''));
   }
-
-  // WHEN UNIT CHANGES, SET THE LEVEL TO 0
 
   useEffect(() => {
     const calcStat = (stat, statTable) => {
@@ -84,16 +87,39 @@ const UnitStats = () => {
       return [totalDOTDamage, duration];
     }
 
-    const calcDPS = (atk, spa, thisDOT) => {
+    const getCrit = () => {
+      let critRate = 0;
+      let critDamage = 0;
+      if (technique && technique !== "base"){
+        if (techniqueData[technique]['critRate'] !== null){
+          critRate += techniqueData[technique]['critRate'];
+        }
+        if (techniqueData[technique]['critRate'] !== null){
+          critDamage += techniqueData[technique]['critDamage'];
+        }
+      }
+      if (tree && tree !== "none"){
+        if (treeData[tree]['critRate'] !== null){
+          critRate += treeData[tree]['critRate'];
+        }
+        if (treeData[tree]['critRate'] !== null){
+          critDamage += treeData[tree]['critDamage'];
+        }
+      }
+      return [critDamage, critRate];
+    }
+
+    const calcDPS = (atk, spa, thisDOT, critDamage, critRate) => {
       if (!atk){
         return null;
       }
+      let baseDamage = convertStringToNum(atk) / spa;
+      let damageWithCrits = baseDamage * (1 + critRate * critDamage);
       if (!thisDOT){
-        return convertNumToString(convertStringToNum(atk) / spa);
+        return convertNumToString(damageWithCrits);
       }
-      let DOTDamage = thisDOT[0];
-      let DOTDuration = thisDOT[1];
-      return convertNumToString((convertStringToNum(atk) / spa) + (DOTDamage / DOTDuration));
+      let [DOTDamage, DOTDuration] = thisDOT;
+      return convertNumToString(damageWithCrits + (DOTDamage / DOTDuration));
     }
 
     if (unit){
@@ -105,6 +131,13 @@ const UnitStats = () => {
       let effect = currentUnitData['effect'];
       let cost = currentUnitData['cost'];
       let thisDOT = calcDOT(atk, effect, technique);
+      let [critDamage, critRate] = getCrit();
+
+      let thisTotalCost = 0;
+      for (let i=0; i<unitLevel+1; i++){
+        thisTotalCost += convertStringToNum(unitData[unit][i.toString()]['cost']);
+      }
+      setTotalCost(convertNumToString(thisTotalCost));
       setUnitStats({
         'cost': cost,
         'damage': atk,
@@ -119,7 +152,11 @@ const UnitStats = () => {
           'duration': thisDOT[1]
         });
       }
-      setDPS(calcDPS(atk, spa, thisDOT));
+      setCrit({
+        'critDamage': critDamage,
+        'critRate': critRate
+      });
+      setDPS(calcDPS(atk, spa, thisDOT, critDamage, critRate));
     }
   }, [unit, unitLevel, technique, tree, damageGrade, rangeGrade, spaGrade]);
 
@@ -141,28 +178,20 @@ const UnitStats = () => {
           {unitStats['range'] && <p>Range: {unitStats['range']}</p>}
           {unitStats['spa'] && <p>SPA: {unitStats['spa']}</p>}
           {unitStats['effect'] && <p>Effect: {unitStats['effect']}</p>}
-          {unitStats['cost'] && <p>Cost: {unitStats['cost']}</p>}
+          {unitStats['cost'] && <p>Current Cost: ${unitStats['cost']}</p>}
+          {totalCost && <p>Cumulative Cost: ${totalCost}</p>}
           {unitLevel!==null && <p>Upgrade Level: {unitLevel}</p>}
           {technique && <p>Technique: {technique}</p>}
+          {crit && <p>Crit: {`${convertNumToString(crit['critDamage']*100)}% damage at ${convertNumToString(crit['critRate']*100)}% rate`}</p>}
           {DOT['damage'] && <p>DOT: {`${convertNumToString(DOT['damage'])} damage over ${DOT['duration']}s`}</p>}
-          {DPS && <p>DPS: {DPS}</p>}
+          {DPS && <p>AVG DPS: {DPS}</p>}
         </div>
         <div className="main-column">
           <div className="display">
+            {unit && <img src={`${process.env.PUBLIC_URL}/img/${unit}.webp`} alt={`${unit}`} />}
             <button onClick={() => {unit && unitData[unit][unitLevel+1] && setUnitLevel(unitLevel+1)}}>Upgrade</button>
           </div>
         </div>
-        {/* <div className="right-column-grades">
-          <div className="right-grade" id="atk-grade">
-            A+
-          </div>
-          <div className="right-grade" id="range-grade">
-            B+
-          </div>
-          <div className="right-grade" id="spa-grade">
-            C+
-          </div>
-        </div> */}
       </div>
     </div>
   )

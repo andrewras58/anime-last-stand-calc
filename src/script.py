@@ -3,6 +3,7 @@ import requests
 from urllib.parse import urlparse
 from time import sleep
 import json
+import os.path
 
 def get_cost(stat_html):
     return stat_html.find('span', {'class': 'Fw(b)-Th-L C(Cash) Tsh(Game) Fw(500)-Th-L'}).text
@@ -78,8 +79,14 @@ def run():
 
         if not character_data[char_name]:
             del character_data[char_name]
+        elif not os.path.isfile(f'/home/andrew/Documents/VS Code Projects/Web Development/anime-last-stand-calc/src/images/units/{char_name}.webp'):
+            img_tag = char_soup.find_all("img", {"class": "pi-image-thumbnail"})
+            if len(img_tag):
+                img_data = requests.get(img_tag[0]['src']).content
+                with open(f'/home/andrew/Documents/VS Code Projects/Web Development/anime-last-stand-calc/src/images/units/{char_name}.webp', 'wb') as imgfile:
+                    imgfile.write(img_data)
 
-    with open('data.json', 'w') as outfile:
+    with open('/home/andrew/Documents/VS Code Projects/Web Development/anime-last-stand-calc/src/data/data.json', 'w') as outfile:
         json.dump(character_data, outfile)
 
 if __name__ == '__main__':
