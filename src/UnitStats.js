@@ -2,9 +2,19 @@ import unitData from "./data/data.json";
 import techniqueData from "./data/techniques.json";
 import effectData from "./data/effects.json";
 import treeData from "./data/trees.json";
+import gradesData from "./data/grades.json";
 import { useState, useEffect } from "react";
+import DropdownSelect from "./DropdownSelect";
 
 const UnitStats = () => {
+  const [unit, setUnit] = useState("");
+  const [technique, setTechnique] = useState("");
+  const [unitLevel, setUnitLevel] = useState(null);
+  const [DPS, setDPS] = useState(null);
+  const [tree, setTree] = useState("");
+  const [damageGrade, setDamageGrade] = useState("");
+  const [rangeGrade, setRangeGrade] = useState("");
+  const [spaGrade, setSpaGrade] = useState("");
   const [unitStats, setUnitStats] = useState({
     'cost': null,
     'damage': null,
@@ -13,15 +23,10 @@ const UnitStats = () => {
     'effect': null,
     'money': null
   });
-  const [unit, setUnit] = useState("");
-  const [technique, setTechnique] = useState("");
-  const [unitLevel, setUnitLevel] = useState(null);
   const [DOT, setDOT] = useState({
     'damage': null,
     'duration': null
   });
-  const [DPS, setDPS] = useState(null);
-  const [tree, setTree] = useState("")
 
   const changeUnit = (unitName) => {
     setUnit(unitName);
@@ -47,7 +52,12 @@ const UnitStats = () => {
     const calcStat = (stat, statTable) => {
       if (statTable[stat]){
         let totalStat = convertStringToNum(statTable[stat]);
-        if (tree && tree !== "none" && treeData[tree][stat] !== null){
+
+        if (stat==='damage' && damageGrade){totalStat *= gradesData['damage'][damageGrade]}
+        if (stat==='range' && rangeGrade){totalStat *= gradesData['range'][rangeGrade]}
+        if (stat==='spa' && spaGrade){totalStat *= gradesData['spa'][spaGrade]}
+
+        if (tree && tree !== "none" && treeData[tree][stat]){
           totalStat *= treeData[tree][stat];
         }
         if (technique && technique !== "base" && techniqueData[technique][stat] !== null){
@@ -111,23 +121,17 @@ const UnitStats = () => {
       }
       setDPS(calcDPS(atk, spa, thisDOT));
     }
-  }, [unit, unitLevel, technique, tree]);
+  }, [unit, unitLevel, technique, tree, damageGrade, rangeGrade, spaGrade]);
 
   return (
     <div className="unit-statistics">
       <div className="unit-selection">
-        <label htmlFor="units">Unit: </label>
-        <select name="units" id="units" value={unit} onChange={e => changeUnit(e.target.value)}>
-          { Object.keys(unitData).map((name, i) => <option value={name} key={i}>{name}</option>) }
-        </select>
-        <label htmlFor="techniques">Technique: </label>
-        <select name="techniques" id="techniques" value={technique} onChange={e => setTechnique(e.target.value)}>
-          { Object.keys(techniqueData).map((name, i) => <option value={name} key={i}>{name}</option>) }
-        </select>
-        <label htmlFor="trees">Skill Tree: </label>
-        <select name="trees" id="trees" value={tree} onChange={e => setTree(e.target.value)}>
-          { Object.keys(treeData).map((name, i) => <option value={name} key={i}>{name}</option>) }
-        </select>
+        <DropdownSelect name="Units" value={unit} setValue={changeUnit} data={unitData} />
+        <DropdownSelect name="Techniques" value={technique} setValue={setTechnique} data={techniqueData} />
+        <DropdownSelect name="Trees" value={tree} setValue={setTree} data={treeData} />
+        <DropdownSelect name="Damage Grade" value={damageGrade} setValue={setDamageGrade} data={gradesData['damage']} />
+        <DropdownSelect name="Range Grade" value={rangeGrade} setValue={setRangeGrade} data={gradesData['range']} />
+        <DropdownSelect name="SPA Grade" value={spaGrade} setValue={setSpaGrade} data={gradesData['spa']} />
       </div>
       <div className="result-container">
         <div className="left-column-stats">
@@ -138,7 +142,7 @@ const UnitStats = () => {
           {unitStats['spa'] && <p>SPA: {unitStats['spa']}</p>}
           {unitStats['effect'] && <p>Effect: {unitStats['effect']}</p>}
           {unitStats['cost'] && <p>Cost: {unitStats['cost']}</p>}
-          {unitLevel >= 0 && <p>Upgrade Level: {unitLevel}</p>}
+          {unitLevel!==null && <p>Upgrade Level: {unitLevel}</p>}
           {technique && <p>Technique: {technique}</p>}
           {DOT['damage'] && <p>DOT: {`${convertNumToString(DOT['damage'])} damage over ${DOT['duration']}s`}</p>}
           {DPS && <p>DPS: {DPS}</p>}

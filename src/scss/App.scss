@@ -1,10 +1,11 @@
+$nav-height: 60px;
 nav{
   display: flex;
   justify-content: center;
-  height: 70px;
+  height: $nav-height;
   > a{
     padding: 20px;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
   }
 }
@@ -47,16 +48,38 @@ nav{
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: red;
-  height: calc(100vh - 70px);
+  background-color: lightgray;
+  height: calc(100vh - $nav-height);
+  min-width: 95vw;
   .unit-selection{
+    max-width: 1000px;
+    width: 95%;
     margin: 25px;
+    display: flex;
+    > .selectionWithLabel {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      > select{
+        text-align: center;
+      }
+    }
   }
   .result-container{
     height: 500px;
-    width: 1000px;
+    max-width: 1000px;
+    width: 95%;
     background-color: white;
     display: flex;
     justify-content: space-around;
+  }
+}
+
+@media (max-width: 860px){
+  .unit-statistics{
+    .unit-selection{
+      flex-direction: column;
+    }
   }
 }
