@@ -182,7 +182,7 @@ const UnitStats = () => {
           {!unit && <span style={{'text-align': 'center'}}>Please select a unit to start</span>}
           {unit && <h3 style={{'text-align': 'center'}}>{unit}</h3>}
           {unitStats['damage'] && <p style={{color: '#ed6d4f'}}>ATK: {unitStats['damage']}</p>}
-          {unitStats['money'] && <p>Money: {unitStats['money']}</p>}
+          {unitStats['money'] && <p style={{color: '#f4bd58'}}>Money: ${unitStats['money']}</p>}
           {unitStats['range'] && <p style={{color: '#6b9ac4'}}>Range: {unitStats['range']}</p>}
           {unitStats['spa'] && <p style={{color: '#99e75a'}}>SPA: {unitStats['spa']}</p>}
           {unitStats['effect'] && <p>Effect: {unitStats['effect']}</p>}
