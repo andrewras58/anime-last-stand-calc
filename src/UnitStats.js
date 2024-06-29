@@ -171,26 +171,25 @@ const UnitStats = () => {
         <DropdownSelect name="SPA Grade" value={spaGrade} setValue={setSpaGrade} data={gradesData['spa']} />
       </div>
       <div className="result-container">
-        <div className="left-column-stats">
-          <span>Unit Stats:</span>
-          {unitStats['damage'] && <p>ATK: {unitStats['damage']}</p>}
-          {unitStats['money'] && <p>Money: {unitStats['money']}</p>}
-          {unitStats['range'] && <p>Range: {unitStats['range']}</p>}
-          {unitStats['spa'] && <p>SPA: {unitStats['spa']}</p>}
-          {unitStats['effect'] && <p>Effect: {unitStats['effect']}</p>}
+        <div className="result-header">
+          {unit && <img src={`${process.env.PUBLIC_URL}/img/${unit}.webp`} alt={`${unit}`} />}
+          {unit && <button onClick={() => {unit && unitData[unit][unitLevel+1] && setUnitLevel(unitLevel+1)}}>Upgrade</button>}
+          {unitLevel!==null && <p>Upgrade Level: {unitLevel}</p>}
           {unitStats['cost'] && <p>Current Cost: ${unitStats['cost']}</p>}
           {totalCost && <p>Cumulative Cost: ${totalCost}</p>}
-          {unitLevel!==null && <p>Upgrade Level: {unitLevel}</p>}
+        </div>
+        <div className="unit-stats">
+          {!unit && <span style={{'text-align': 'center'}}>Please select a unit to start</span>}
+          {unit && <h3 style={{'text-align': 'center'}}>{unit}</h3>}
+          {unitStats['damage'] && <p style={{color: '#ed6d4f'}}>ATK: {unitStats['damage']}</p>}
+          {unitStats['money'] && <p>Money: {unitStats['money']}</p>}
+          {unitStats['range'] && <p style={{color: '#6b9ac4'}}>Range: {unitStats['range']}</p>}
+          {unitStats['spa'] && <p style={{color: '#99e75a'}}>SPA: {unitStats['spa']}</p>}
+          {unitStats['effect'] && <p>Effect: {unitStats['effect']}</p>}
           {technique && <p>Technique: {technique}</p>}
-          {crit && <p>Crit: {`${convertNumToString(crit['critDamage']*100)}% damage at ${convertNumToString(crit['critRate']*100)}% rate`}</p>}
+          {crit['critDamage'] !== 0 && crit['critRate'] !== 0 && <p>Crit: {`${convertNumToString(crit['critDamage']*100)}% damage at ${convertNumToString(crit['critRate']*100)}% rate`}</p>}
           {DOT['damage'] && <p>DOT: {`${convertNumToString(DOT['damage'])} damage over ${DOT['duration']}s`}</p>}
           {DPS && <p>AVG DPS: {DPS}</p>}
-        </div>
-        <div className="main-column">
-          <div className="display">
-            {unit && <img src={`${process.env.PUBLIC_URL}/img/${unit}.webp`} alt={`${unit}`} />}
-            <button onClick={() => {unit && unitData[unit][unitLevel+1] && setUnitLevel(unitLevel+1)}}>Upgrade</button>
-          </div>
         </div>
       </div>
     </div>
